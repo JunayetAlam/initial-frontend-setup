@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { useCurrentToken, logout } from "@/redux/authSlice";
+import { useAppSelector } from "@/redux/store";
+import { useCurrentToken } from "@/redux/authSlice";
 import { useGetMeQuery } from "@/redux/api/userApi";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -14,10 +13,11 @@ import defaultUser from "@/assets/user.png";
 
 // icons
 import { User, LayoutDashboard, LogOut } from "lucide-react";
+import { useHandleLogout } from "@/hooks/useHandleLogout";
 
 export default function NavProfile() {
-  const dispatch = useAppDispatch();
   const router = useRouter();
+  const handleLogout = useHandleLogout()
   const token = useAppSelector(useCurrentToken);
   const { data, isLoading } = useGetMeQuery(undefined, { skip: !token });
 
@@ -25,14 +25,11 @@ export default function NavProfile() {
     ? `${AppConfig.backendUrl}${data.data.profile}`
     : undefined;
 
-  const handleLogout = () => {
-    dispatch(logout());
-    router.push("/auth/sign-in");
-  };
+
 
   return (
     <DropdownMenu >
-      <DropdownMenuTrigger  asChild>
+      <DropdownMenuTrigger asChild>
         {isLoading ? (
           <Skeleton className="h-11 w-11 rounded-full" />
         ) : (
@@ -50,7 +47,7 @@ export default function NavProfile() {
         )}
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end"  className="w-44">
+      <DropdownMenuContent align="end" className="w-44">
         <DropdownMenuItem asChild>
           <Link href="/profile" className="flex items-center gap-2">
             <User size={16} /> Profile
