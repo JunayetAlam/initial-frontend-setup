@@ -13,6 +13,7 @@ interface MYTextEditorProps {
   required?: boolean;
   content: string;
   onChangeHandler: (content: string) => void;
+  height?: string;
 }
 
 const RichTextEditor: React.FC<MYTextEditorProps> = ({
@@ -21,11 +22,15 @@ const RichTextEditor: React.FC<MYTextEditorProps> = ({
   required,
   content,
   onChangeHandler,
+  height = "200px",
 }) => {
   return (
     <div className="text-editor-container">
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
-        {label} {required && <span style={{ color: "red" }}>*</span>}
+      <label
+        htmlFor={name}
+        className="text-muted-foreground mb-2 block text-sm font-medium"
+      >
+        {label} {required && <span className="text-destructive">*</span>}
       </label>
 
       <div>
@@ -33,7 +38,7 @@ const RichTextEditor: React.FC<MYTextEditorProps> = ({
           setContents={content}
           onChange={(content) => onChangeHandler(content)}
           setOptions={{
-            height: "100vh",
+            height,
             width: "100%",
             buttonList: [
               [
