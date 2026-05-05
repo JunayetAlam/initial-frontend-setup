@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Controller, useFormContext } from "react-hook-form";
-import { Switch } from "../ui/switch";
+import { Switch } from "@/components/ui/switch";
 
 type TToggleProps = {
   name: string;
