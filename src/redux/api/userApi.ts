@@ -21,8 +21,11 @@ const userApi = baseApi.injectEndpoints({
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          const { accessToken, ...rest } = data.data as User & { accessToken: string };
-          if (accessToken) dispatch(setUser({ user: { ...rest }, token: accessToken }));
+          const { accessToken, ...rest } = data.data as User & {
+            accessToken: string;
+          };
+          if (accessToken)
+            dispatch(setUser({ user: { ...rest }, token: accessToken }));
         } catch (error) {
           console.error("Login failed:", error);
         }
@@ -46,8 +49,11 @@ const userApi = baseApi.injectEndpoints({
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          const { accessToken, ...rest } = data.data as User & { accessToken: string };
-          if (accessToken) dispatch(setUser({ user: { ...rest }, token: accessToken }));
+          const { accessToken, ...rest } = data.data as User & {
+            accessToken: string;
+          };
+          if (accessToken)
+            dispatch(setUser({ user: { ...rest }, token: accessToken }));
         } catch (error) {
           console.error("Email verification failed:", error);
         }
@@ -81,7 +87,10 @@ const userApi = baseApi.injectEndpoints({
     getAllUsers: builder.query({
       query: (args: TQueryParam[]) => {
         const params = new URLSearchParams();
-        if (args) args.forEach((item) => params.append(item.name, item.value as string));
+        if (args)
+          args.forEach((item) =>
+            params.append(item.name, item.value as string),
+          );
         return { url: "/users", method: "GET", params };
       },
       transformResponse: (response: TResponseRedux<User[]>) => ({
@@ -92,17 +101,28 @@ const userApi = baseApi.injectEndpoints({
     }),
     getUserById: builder.query({
       query: (id: string) => ({ url: `/users/${id}`, method: "GET" }),
-      transformResponse: (response: TResponseRedux<User>) => ({ data: response.data }),
+      transformResponse: (response: TResponseRedux<User>) => ({
+        data: response.data,
+      }),
       providesTags: (result, error, id) => [{ type: "User", id }],
     }),
     getMe: builder.query({
       query: () => ({ url: `/users/me`, method: "GET" }),
-      transformResponse: (response: TResponseRedux<User>) => ({ data: response.data }),
+      transformResponse: (response: TResponseRedux<User>) => ({
+        data: response.data,
+      }),
       providesTags: ["User"],
     }),
     updateProfile: builder.mutation({
-      query: (data) => ({ url: `/users/update-profile`, method: "PUT", body: data }),
-      invalidatesTags: (result, error, { id }) => ["User", { type: "User", id }],
+      query: (data) => ({
+        url: `/users/update-profile`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        "User",
+        { type: "User", id },
+      ],
     }),
     deleteUser: builder.mutation({
       query: (id: string) => ({ url: `/users/${id}`, method: "DELETE" }),
@@ -114,7 +134,7 @@ const userApi = baseApi.injectEndpoints({
         method: "PUT",
         body: formData,
       }),
-      invalidatesTags: () => ["User", { type: "User"}],
+      invalidatesTags: () => ["User", { type: "User" }],
     }),
   }),
 });

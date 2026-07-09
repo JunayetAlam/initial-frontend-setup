@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BaseQueryApi } from "@reduxjs/toolkit/query";
 import { SVGProps } from "react";
-export * from './message.type'
+export * from "./message.type";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -22,7 +22,7 @@ export interface User {
   bio?: string | null;
   location?: string | null;
   isAgreeWithTerms: boolean;
-  profile?: string | null;
+  profilePhoto?: string | null;
   sentMessages?: any[];
   receivedMessages?: any[];
   supports?: any[];
@@ -57,4 +57,4 @@ export type TResponse<T> = {
   message: string;
 };
 
-export type TResponseRedux<T> = TResponse<T> & BaseQueryApi
+export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;

@@ -1,14 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
 import { useCurrentToken } from "@/redux/authSlice";
 import { useGetMeQuery } from "@/redux/api/userApi";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { AppConfig } from "@/config";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import defaultUser from "@/assets/user.png";
 
 // icons
@@ -16,19 +19,14 @@ import { User, LayoutDashboard, LogOut } from "lucide-react";
 import { useHandleLogout } from "@/hooks/useHandleLogout";
 
 export default function NavProfile() {
-  const router = useRouter();
-  const handleLogout = useHandleLogout()
+  const handleLogout = useHandleLogout();
   const token = useAppSelector(useCurrentToken);
   const { data, isLoading } = useGetMeQuery(undefined, { skip: !token });
 
-  const profileUrl = data?.data?.profile
-    ? `${AppConfig.backendUrl}${data.data.profile}`
-    : undefined;
-
-
+  const profileUrl = data?.data?.profilePhoto || undefined;
 
   return (
-    <DropdownMenu >
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {isLoading ? (
           <Skeleton className="h-11 w-11 rounded-full" />
